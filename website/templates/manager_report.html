@@ -1,0 +1,71 @@
+<h1>Manager Report</h1>
+
+
+<!-- Button to go back to the manager dashboard -->
+<a href="/manager">
+    Back to Manager Dashboard
+</a>
+
+
+<!-- Loop through each project to generate a table -->
+{% for item in report %}
+    <h2>Project: {{ item.project }}</h2>
+    <table border="1" style="margin-bottom: 20px; width: 100%;">
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>Employee Name</th>
+                <th>Working Hours Registered</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% if item.employee_details %}
+                {% for emp in item.employee_details %}
+                <tr>
+                    <td>{{ emp.id }}</td>
+                    <td>{{ emp.name }}</td>
+                    <td>{{ emp.hours }}</td>
+                </tr>
+                {% endfor %}
+            {% else %}
+                <tr>
+                    <td colspan="3" style="text-align: center;">No employees assigned to this project yet.</td>
+                </tr>
+            {% endif %}
+        </tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2"><strong>Total Hours:</strong></td>
+                <td><strong>{{ item.total_hours }}</strong></td>
+            </tr>
+        </tfoot>
+    </table>
+{% endfor %}
+
+<!-- <table>
+    <thead>
+        <tr>
+            <th>Project</th>
+            <th>Total Hours</th>
+            <th>Employee Details</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for item in report %}
+            <tr>
+                <td>{{ item.project }}</td>
+                <td>{{ item.total_hours }}</td>
+                <td>
+                    <ul>
+                        {% for emp in item.employee_details %}
+                            <li>ID: {{ emp.id }}, 
+                                Name: {{ emp.name }},
+                                Hours: {{ emp.hours }}
+                            </li>
+                        {% endfor %}
+                    </ul>
+                </td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table> -->

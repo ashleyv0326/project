@@ -1,0 +1,83 @@
+<!-- <!DOCTYPE html>
+<html>
+<head>
+    <title>Employee Dashboard</title>
+</head>
+<body>
+    <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+
+    <h2>Your Information</h2>
+    <ul>
+        <li>Email: {{ user.email }}</li>
+        <li>Phone: {{ user.phone_number }}</li>
+        <li>Address: {{ user.address }}</li>
+        <li>Date of Birth: {{ user.date_of_birth }}</li>
+    </ul>
+    <a href="/employee/update">Update Information</a>
+
+    <h2>Register Working Hours</h2>
+    <form method="POST" action="/employee/log_hours">
+        <label for="project_id">Select Project:</label>
+        <select id="project_id" name="project_id" required>
+            {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.name }}</option>
+            {% endfor %}
+        </select><br>
+        <label for="hours">Hours:</label>
+        <input type="number" id="hours" name="hours" step="0.1" required><br>
+        <button type="submit">Register hours</button>
+    </form>
+
+    <form method="POST" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html> -->
+
+{% extends "base.html" %}
+
+{% block title %}Employee Dashboard{% endblock %}
+
+{% block content %}
+    <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+
+    <h2>Your Information</h2>
+    <ul class="list-group mb-4">
+        <li class="list-group-item"><strong>Email:</strong> {{ user.email }}</li>
+        <li class="list-group-item"><strong>Phone:</strong> {{ user.phone_number }}</li>
+        <li class="list-group-item"><strong>Address:</strong> {{ user.address }}</li>
+        <li class="list-group-item"><strong>Date of Birth:</strong> {{ user.date_of_birth }}</li>
+    </ul>
+    <a href="/employee/update" class="btn btn-primary mb-4">Update Information</a>
+
+    <h2>Register Working Hours</h2>
+    <form method="POST" action="/employee/log_hours" class="mb-4">
+        <div class="mb-3">
+            <label for="project_id" class="form-label">Select Project:</label>
+            <select id="project_id" name="project_id" class="form-select" required>
+                {% for project in projects %}
+                    <option value="{{ project.id }}">{{ project.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label for="hours" class="form-label">Hours:</label>
+            <input type="number" id="hours" name="hours" step="0.1" class="form-control" required>
+        </div>
+        <button type="submit" class="btn btn-success">Register Hours</button>
+    </form>
+
+    <form method="POST" action="/logout">
+        <button type="submit" class="btn btn-danger">Logout</button>
+    </form>
+{% endblock %}

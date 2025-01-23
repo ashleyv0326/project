@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Manager Dashboard</title>
+    
+</head>
+<body>
+    <h1>Manager Dashboard</h1>
+    <h1>Welcome, {{ user.first_name }} {{ user.last_name }}</h1>
+    <!-- Section: Display All Employees -->
+    <h2>Employees Overview  (Hours by Project) </h2>
+    <table border="1">
+        <thead>
+            <tr>
+                <th>Employee ID</th>
+                <th>First Name</th>
+                <th>Last Name</th>
+                <th>Project</th>
+                <th>Total Hours</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for record in employees %}
+            <tr>
+                <td>{{ record.employee_id }}</td>
+                <td>{{ record.first_name }}</td>
+                <td>{{ record.last_name}}</td>
+                <td>{{ record.project or 'Unassigned'}}</td>
+                <td>{{ record.total_hours or 0}}</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+
+    <!-- Section: Manage Projects -->
+    <h2>Manage Projects</h2>
+    <form method="POST" action="/manager/add_project">
+        <label for="project_name">New Project Name:</label>
+        <input type="text" id="project_name" name="project_name" required>
+        <button type="submit">Add Project</button>
+    </form>
+
+    <h3>Existing Projects:</h3>
+    <ul>
+        {% for project in projects %}
+        <li>
+            {{ project.name }}
+            <form method="POST" action="/manager/delete_project/{{ project.id }}" style="display:inline;">
+                <button type="submit">Delete</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <h2>Assign Project to Employee</h2>
+    <form method="POST" action="/manager/assign_project">
+        <label for="employee_id">Select Employee:</label>
+        <select id="employee_id" name="employee_id" required>
+            {% for employee in employees_list %}
+            <option value="{{ employee.id }}">{{ employee.first_name }} {{ employee.last_name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <label for="project_id">Select Project:</label>
+        <select id="project_id" name="project_id" required>
+            {% for project in projects %}
+                <option value="{{ project.id }}">{{ project.name }}</option>
+            {% endfor %}
+        </select><br>
+
+        <button type="submit">Assign Project</button>
+    </form>
+
+    <!-- Section: Generate Reports -->
+    <h2>Reports</h2>
+    <form method="GET" action="/manager/report">
+        <button type="submit">View Reports</button>
+    </form>
+
+    <!-- Logout Button -->
+    <form method="POST" action="/logout">
+        <button type="submit">Logout</button>
+    </form>
+
+    <!-- Flash Messages -->
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+            <ul>
+                {% for category, message in messages %}
+                    <li class="{{ category }}">{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+    {% endwith %}
+</body>
+</html>
